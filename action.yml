@@ -1,0 +1,11 @@
+name: 'Dylan Smith'
+description: 'Provide a description here'
+author: 'Your name or organization here'
+inputs:
+  sonarToken:
+    required: true
+  sonarOrganization:
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
