@@ -4134,9 +4134,9 @@ const checkQualityGate_1 = __importDefault(__webpack_require__(241));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const url = core.getInput('sonarUrl');
             const token = core.getInput('sonarToken');
-            const organization = core.getInput('sonarOrganization');
-            yield checkQualityGate_1.default(token, organization);
+            yield checkQualityGate_1.default(url, token);
         }
         catch (error) {
             core.setFailed(error.message);
@@ -5436,20 +5436,18 @@ exports.PROP_NAMES = {
     PROJECTSETTINGS: 'project.settings'
 };
 class Endpoint {
-    constructor(url, token, organization) {
+    constructor(url, token) {
         this.url = url;
         this.token = token;
-        this.organization = organization;
     }
     toSonarProps() {
         return {
             [exports.PROP_NAMES.HOST_URL]: this.url,
-            [exports.PROP_NAMES.LOGIN]: this.token,
-            [exports.PROP_NAMES.ORG]: this.organization
+            [exports.PROP_NAMES.LOGIN]: this.token
         };
     }
-    static getEndpoint(token, organization) {
-        return new Endpoint('https://sonarcloud.io', token, organization);
+    static getEndpoint(url, token) {
+        return new Endpoint(url, token);
     }
 }
 exports.default = Endpoint;
@@ -8174,9 +8172,9 @@ const Metrics_1 = __importDefault(__webpack_require__(611));
 const TaskReport_1 = __importDefault(__webpack_require__(148));
 const Analysis_1 = __importDefault(__webpack_require__(764));
 const Task_1 = __importStar(__webpack_require__(521));
-function checkQualityGateTask(token, organization) {
+function checkQualityGateTask(url, token) {
     return __awaiter(this, void 0, void 0, function* () {
-        const endpoint = Endpoint_1.default.getEndpoint(token, organization);
+        const endpoint = Endpoint_1.default.getEndpoint(url, token);
         const metrics = yield Metrics_1.default.getAllMetrics(endpoint);
         if (!metrics) {
             core.setFailed('Unable to connect to the SonarCloud metrics API endpoint');
@@ -33634,6 +33632,10 @@ function isString(x) {
 }
 function getJSON(endpoint, path, query) {
     return __awaiter(this, void 0, void 0, function* () {
+        core.debug('getJSON');
+        core.debug(`endpoint.url: ${endpoint.url}`);
+        core.debug(`path: ${path}`);
+        core.debug(`query: ${JSON.stringify(query)}`);
         return get(endpoint, path, true, query);
     });
 }

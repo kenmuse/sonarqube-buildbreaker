@@ -11,10 +11,7 @@ export const PROP_NAMES = {
 }
 
 export default class Endpoint {
-  constructor(
-    readonly url: string,
-    readonly token: string
-  ) {}
+  constructor(readonly url: string, readonly token: string) {}
 
   toSonarProps(): {[prop: string]: string} {
     return {
