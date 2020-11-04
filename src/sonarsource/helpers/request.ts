@@ -63,10 +63,6 @@ export async function getJSON<T>(
   path: string,
   query?: RequestData
 ): Promise<T> {
-  core.debug('getJSON')
-  core.debug(`endpoint.url: ${endpoint.url}`)
-  core.debug(`path: ${path}`)
-  core.debug(`query: ${JSON.stringify(query)}`)
   return get<T>(endpoint, path, true, query)
 }
 
