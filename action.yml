@@ -2,9 +2,9 @@ name: 'Dylan Smith'
 description: 'Provide a description here'
 author: 'Your name or organization here'
 inputs:
-  sonarToken:
+  sonarUrl:
     required: true
-  sonarOrganization:
+  sonarToken:
     required: true
 runs:
   using: 'node12'
