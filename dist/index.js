@@ -33632,10 +33632,6 @@ function isString(x) {
 }
 function getJSON(endpoint, path, query) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.debug('getJSON');
-        core.debug(`endpoint.url: ${endpoint.url}`);
-        core.debug(`path: ${path}`);
-        core.debug(`query: ${JSON.stringify(query)}`);
         return get(endpoint, path, true, query);
     });
 }
