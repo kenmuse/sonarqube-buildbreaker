@@ -59,7 +59,7 @@ export default class Analysis {
         projectName
       )
     } catch (err) {
-      if (err && err.message) {
+      if (err && err instanceof Error) {
         core.error(`[SQ] Error retrieving analysis: ${err.message}`)
       } else if (err) {
         core.error(`[SQ] Error retrieving analysis: ${JSON.stringify(err)}`)

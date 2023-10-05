@@ -34,13 +34,25 @@ export default class TaskReport {
   }
 
   static async findTaskFileReport(): Promise<string[]> {
-    const taskReportGlob = path.join(
-      '.sonarqube',
-      'out',
-      '.sonar',
-      '**',
-      REPORT_TASK_NAME
-    )
+    let result = await TaskReport.findTaskFileReportForPath(path.join(
+                  '.sonarqube',
+                  'out',
+                  '.sonar',
+                  '**',
+                  REPORT_TASK_NAME
+                ));
+    if (result.length === 0){
+      result = await TaskReport.findTaskFileReportForPath(path.join(
+        'target',
+        'sonar',
+        REPORT_TASK_NAME
+      ));
+    }
+
+    return result;
+  }
+
+  static async findTaskFileReportForPath(taskReportGlob: string): Promise<string[]> {
     const globber = await glob.create(taskReportGlob)
     const taskReportGlobResult = await globber.glob()
 
@@ -102,7 +114,7 @@ export default class TaskReport {
         })
         return taskReport
       } catch (err) {
-        if (err && err.message) {
+        if (err && err instanceof Error) {
           core.error(`[SQ] Parse Task report error: ${err.message}`)
         } else if (err) {
           core.error(`[SQ] Parse Task report error: ${JSON.stringify(err)}`)
@@ -110,8 +122,9 @@ export default class TaskReport {
         throw err
       }
     } catch (err) {
+      const message = err instanceof Error ? err.message : JSON.stringify(err)
       throw TaskReport.throwInvalidReport(
-        `[SQ] Error reading file: ${err.message || JSON.stringify(err)}`
+        `[SQ] Error reading file: ${message}`
       )
     }
   }

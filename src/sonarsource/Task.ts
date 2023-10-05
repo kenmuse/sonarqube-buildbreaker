@@ -63,7 +63,7 @@ export default class Task {
           )
       }
     } catch (err) {
-      if (err && err.message) {
+      if (err && err instanceof Error) {
         core.error(err.message)
       } else if (err) {
         core.error(JSON.stringify(err))

@@ -7,7 +7,8 @@ import Task, {TimeOutReachedError} from './sonarsource/Task'
 
 export default async function checkQualityGateTask(
   url: string,
-  token: string
+  token: string,
+  reportFile: string | undefined
 ): Promise<void> {
   const endpoint = Endpoint.getEndpoint(url, token)
 
@@ -19,7 +20,7 @@ export default async function checkQualityGateTask(
   }
 
   const timeoutSec = 120
-  const taskReports = await TaskReport.createTaskReportsFromFiles(endpoint)
+  const taskReports = await TaskReport.createTaskReportsFromFiles(endpoint, reportFile == undefined ? undefined : [ reportFile ])
 
   const analyses = await Promise.all<Analysis>(
     taskReports.map(async taskReport =>

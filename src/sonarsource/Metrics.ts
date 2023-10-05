@@ -30,7 +30,7 @@ export default class Metrics {
       return await inner()
     } catch (err) {
       core.error(`[SQ] Could not fetch metrics`)
-      if (err && err.message) {
+      if (err && err instanceof Error) {
         core.error(err.message)
       } else if (err) {
         core.error(JSON.stringify(err))

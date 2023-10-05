@@ -1,11 +1,14 @@
-name: 'Dylan Smith'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'SonarQube Build Breaker'
+description: 'Breaks a build based on the SonarQube project results'
+author: 'Dylan Smith'
 inputs:
   sonarUrl:
     required: true
   sonarToken:
     required: true
+  scanReportFile:
+    description: 'Full path to the report file'
+    required: false
 runs:
-  using: 'node12'
+  using: 'node18'
   main: 'dist/index.js'
