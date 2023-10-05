@@ -3,9 +3,11 @@ description: 'Breaks a build based on the SonarQube project results'
 author: 'Dylan Smith'
 inputs:
   sonarUrl:
-    required: true
+    required: false
+    default: ${{ env.SONAR_HOST_URL }}
   sonarToken:
-    required: true
+    required: false
+    default: ${{ env.SONAR_TOKEN }}
   scanReportFile:
     description: 'Full path to the report file'
     required: false
